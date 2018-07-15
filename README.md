@@ -5,7 +5,7 @@ jQuery plugin that draws a box over an image.
 
 This plugin can be used with minimum changes to your existing code.
 ImgBox reads `data-` attributes to your img tags and draws a custom styled box.
-See the (demo page)[https://cdn.rawgit.com/davidnewcomb/jquery-imgbox/master/example.html]
+See the [demo page](https://cdn.rawgit.com/davidnewcomb/jquery-imgbox/master/example.html)
 for examples.
 
 ## Dependencies
@@ -58,4 +58,4 @@ Attribute	| Type			| Default				| Description
 
 ## License
 
-[MIT License](http://zenorocha.mit-license.org/) &copy; David Newcomb
+[MIT License](https://opensource.org/licenses/MIT) &copy; David Newcomb, http://www.bigsoft.co.uk
