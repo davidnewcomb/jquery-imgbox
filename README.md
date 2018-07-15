@@ -5,6 +5,8 @@ jQuery plugin that draws a box over an image.
 
 This plugin can be used with minimum changes to your existing code.
 ImgBox reads `data-` attributes to your img tags and draws a custom styled box.
+See the (demo page)[https://cdn.rawgit.com/davidnewcomb/jquery-imgbox/master/example.html]
+for examples.
 
 ## Dependencies
 
@@ -53,26 +55,6 @@ Attribute	| Type			| Default				| Description
 `markStyle`	| *Object*		| `{'border' : '1px solid red'}`	| Red solid border line.
 `markZIndex`	| *Number*		| `1000`				| CSS `z-index` value.
 `debug`		| *Boolean*		| `false`				| Some extra information.
-
-## Examples
-
-Draw a red box.
-```js
-$('img').imgbox({
-	markStyle:{
-		'border': '4px dotted green'
-		}
-	});
-```
-Highlight an area.
-```js
-$('img').imgbox({
-	markStyle: {
-		'background-color':'white'
-		, 'opacity': '0.2'
-	}
-});
-```
 
 ## License
 

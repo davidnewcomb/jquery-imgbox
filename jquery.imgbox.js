@@ -3,7 +3,7 @@
  *  A jQuery plugin that draws a box over an image.
  *  https://github.com/davidnewcomb/jquery-imgbox/
  *
- *  Copyright (c) 2018 David Newcomb
+ *  Copyright (c) 2018 David Newcomb, http://www.bigsoft.co.uk
  *  MIT License
  */
 (function($) {
