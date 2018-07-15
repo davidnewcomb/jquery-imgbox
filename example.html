@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+<script src="//code.jquery.com/jquery-3.3.1.js"></script>
+<link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+<script src="jquery.imgbox.js"></script>
+
+<style>
+.row .myrow {
+	border: 2px solid blue;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>ImgBox</h1>
+
+<div>
+jQuery plugin that draws a box over an image. The box can be decorated with CSS.
+</div>
+
+<a href="https://github.com/davidnewcomb/jquery-imgbox">Project page</a>
+
+<hr/>
+	<div class="row myrow">
+		<div class="col-sm-6 col-lg-6">
+			<div class="panel panel-default">
+				<div class="panel-body">Use x and y co-ordinates with width and height.</div>
+			</div>
+			<pre>&lt;img
+ id="jack_me"
+ class="img-responsive"
+ data-x="525" data-y="50"
+ data-w="300" data-h="350"
+ src=".."/&gt;</pre>
+ 			<pre>$('#jack_me').imgbox({markStyle:{'border': '4px solid red'}});</pre>
+		</div>
+		<div class="col-sm-6 col-lg-6">
+			<img id="jack_me" class="img-responsive" data-x="525" data-y="50" data-w="300" data-h="350" src="https://scontent-lht6-1.xx.fbcdn.net/v/t1.0-9/30706113_10156369591739468_7247340090861715801_n.jpg?_nc_cat=0&oh=e48a59b1d9b0479a073206e54f71f8c5&oe=5BD0D8AF"/>
+		</div>
+	</div>
+
+<hr/>
+
+	<div class="row myrow">
+		<div class="col-sm-6 col-lg-6">
+			<div class="panel panel-default">
+				<div class="panel-body">Apply style to all elements with a class of <code>imgbox</code> to share configuration.</div>
+			</div>
+			<pre>&lt;img
+ class="img-responsive imgbox"
+ data-x="1000" data-y="1500"
+ data-w="375" data-h="150"
+ src=".."/&gt;</pre>
+ 			<pre>$('.imgbox').imgbox({markStyle:{'background-color':'white','opacity': '0.2', 'border': '4px dotted white'}});</pre>
+		</div>
+		<div class="col-sm-6 col-lg-6">
+			<img class="img-responsive imgbox" data-x="830" data-y="600" data-w="390" data-h="450" src="https://scontent-lht6-1.xx.fbcdn.net/v/t31.0-8/19477733_10155502258319468_1320011948616978230_o.jpg?_nc_cat=0&oh=f7fbad2cb1aafa842b3ed0c7a076d2ee&oe=5BDF622B"/>
+		</div>
+	</div>
+
+<hr/>
+
+	<div class="row myrow">
+		<div class="col-sm-4 col-lg-4">
+			<div class="panel panel-default">
+				<div class="panel-body">Reusing style from <code>imgbox</code>. Wrap your image in anything like an anchor link.</div>
+			</div>
+			<pre>&lt;a href="README.md"&gt;
+ &lt;img
+ class="img-responsive imgbox"
+ data-x="15" data-y="110"
+ data-w="70" data-h="80"
+ src=".."/&gt;
+&lt;/a&gt;</pre>
+ 			<pre>$('.imgbox').imgbox({markStyle:{'background-color':'white','opacity': '0.2', 'border': '4px dotted white'}});</pre>
+		</div>
+		<div class="col-sm-8 col-lg-8">
+			<a href="README.md">
+				<img class="img-responsive imgbox" data-x="15" data-y="110" data-w="70" data-h="80" src="https://scontent-lht6-1.xx.fbcdn.net/v/t1.0-9/29063591_1514555798592237_6102906196971225088_n.jpg?_nc_cat=0&oh=7eb847eec94f180d2be8ee2c62b46ea8&oe=5BEB8B6D"/>
+			</a>
+		</div>
+	</div>
+
+<hr/>
+
+	<div class="row myrow">
+		<div class="col-sm-6 col-lg-6">
+			<div class="panel panel-default">
+				<div class="panel-body">Use x and y for the first set of co-ordinates and x2 and y2 for the second (instead of width and height).</div>
+			</div>
+			<pre>&lt;img
+ id="party_jack"
+ class="img-responsive"
+ data-x="225" data-y="50"
+ data-x2="620" data-y2="475"
+ src=".."/&gt;</pre>
+ 			<pre>$('#party_jack').imgbox({markStyle:{'border': '5px dashed cyan'}});</pre>
+		</div>
+		<div class="col-sm-6 col-lg-6">
+			<img id="party_jack" class="img-responsive" data-x="125" data-y="250" data-x2="400" data-y2="650" src="https://scontent-lht6-1.xx.fbcdn.net/v/t1.0-9/30742006_10156372229684468_8950380119808659824_n.jpg?_nc_cat=0&oh=026081fa5cb58b6f1985314707fc74b9&oe=5BDEBFD7"/>
+		</div>
+	</div>
+
+<hr/>
+
+	<div class="row myrow">
+		<div class="col-sm-6 col-lg-6">
+			<div class="panel panel-default">
+				<div class="panel-body">Add clickables like alerts to your img in the normal way.</div>
+			</div>
+			<pre>&lt;img
+ id="fencing"
+ class="img-responsive"
+ data-x="390" data-y="280"
+ data-w="220" data-h="220"
+ onclick="alert('David is Ace!');"
+ src=".."/&gt;</pre>
+ 			<pre>$('#fencing').imgbox({markStyle:{'border': '10px solid yellow'}});</pre>
+		</div>
+		<div class="col-sm-6 col-lg-6">
+			<img id="fencing" class="img-responsive" data-x="390" data-y="280" data-w="220" data-h="220" onclick="alert('David is Ace!');" src="https://scontent-lht6-1.xx.fbcdn.net/v/t31.0-8/1071390_10151980852599468_948898967_o.jpg?_nc_cat=0&oh=6d425196653a4ef08a8dc0f4ebe4242f&oe=5BC978E2"/>
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).ready(function() {
+	$('.imgbox').imgbox({markStyle:{'background-color':'white','opacity': '0.2', 'border': '4px dotted white'}});
+	$('#jack_me').imgbox({markStyle:{'border': '4px solid red'}});
+	$('#fencing').imgbox({markStyle:{'border': '10px solid yellow'}});
+	$('#party_jack').imgbox({markStyle:{'border': '5px dashed cyan'}});
+});
+</script>
+
+</body>
+</html>
+
