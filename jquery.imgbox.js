@@ -10,72 +10,99 @@
 
 	$.fn.imgbox = function(options) {
 
-		// This is the easiest way to have default options.
 		var settings = $.extend({
-			debug : true,
+			// extra messages
+			debug : false,
+			// set of highlight styles
 			markStyle : {
 				'border' : '1px solid red'
 			},
-			markZIndex : 1000
+			// z-index of border
+			markZIndex : 1000,
+			// Wrap the IMG tag if the coordinates are invalid
+			wrap_if_invalid : false
 		}, options);
 
 		var allElments = this;
-		var uniq = 'u' + uuidv4();
+		var imgbox_class = 'imgbox' + get_unique_id();
+
 		init();
 
 		function init() {
 			merge_mark_styles();
-			replace_imgboxes();
-			$(window).on('resize', window_resize_piccy);
+			var page_contains_elements = replace_imgboxes();
+			if (page_contains_elements == false) {
+				debug('page contains no elements');
+				return;
+			}
+			$(window).on('resize', window_resize_imgbox);
 			init_imgbox();
 		}
 
 		function replace_imgboxes() {
+			var style = to_css_string(settings.markStyle);
+			var page_contains_elements = false;
 			allElments.each(function() {
+				var data = validate_data($(this).data());
+
+				if (data == null && settings.wrap_if_invalid == false) {
+					debug('invalid coords id')
+					return;
+				}
 				var img = this.outerHTML;
-				var style = to_css_string(settings.markStyle);
-				var d = '<div class="piccy' + uniq + '" style="position: relative;">' + img
+				var d = '<div class="' + imgbox_class + '" style="position: relative;">' + img
 					+ '<div style="' + style + '"></div></div>';
 				$(this).replaceWith(d);
+				page_contains_elements = true;
 			});
+			return page_contains_elements;
 		}
 
-		function window_resize_piccy() {
-			$('.piccy' + uniq).each(resize_piccy);
+		function window_resize_imgbox() {
+			$('.' + imgbox_class).each(resize_imgbox);
 		}
 
 		function init_imgbox() {
-			$('.piccy' + uniq).find('img').one("load", function() {
-				resize_piccy(0, $(this).parent());
+			$('.' + imgbox_class).find('img').one("load", function() {
+				resize_imgbox(0, $(this).parent());
 			}).each(function(e) {
 				if (this.complete) {
 					try {
 						$(this).load();
 					} catch (e) {
-						debug('Exception, don\'t know why!');
+						debug('exception, don\'t know why! Help!!');
 						debug(e);
 					}
 				}
 			});
 		}
 
-		function resize_piccy(idx, el) {
-			var $img = $(el).find('img');
-			var markData = $img.data();
-
-			if (markData == undefined || markData.x == undefined || markData.y == undefined) {
-				debug('imgbox: missing one of x,y');
-				return;
+		function validate_data(data) {
+			if (data == undefined || data.x == undefined || data.y == undefined) {
+				debug('missing one of x,y');
+				return null;
 			}
 
-			if (markData.w == undefined || markData.h == undefined) {
-				if (markData.x2 == undefined || markData.y2 == undefined) {
-					debug('imgbox: missing one of w,h|x2,y2');
-					return;
+			if (data.w == undefined || data.h == undefined) {
+				if (data.x2 == undefined || data.y2 == undefined) {
+					debug('missing one of w,h|x2,y2');
+					return null;
 				} else {
-					markData.w = Math.abs(markData.x2 - markData.x);
-					markData.h = Math.abs(markData.y2 - markData.y);
+					data.w = Math.abs(data.x2 - data.x);
+					data.h = Math.abs(data.y2 - data.y);
 				}
+			}
+			return data;
+		}
+
+		function resize_imgbox(idx, el) {
+
+			var $img = $(el).find('img');
+
+			var data = validate_data($img.data());
+
+			if (data == null) {
+				return;
 			}
 
 			var width = $img.width();
@@ -83,10 +110,10 @@
 
 			var ratio = width / realWidth;
 
-			var ww = ratio * markData.w;
-			var hh = ratio * markData.h;
-			var xx = ratio * markData.x;
-			var yy = ratio * markData.y;
+			var ww = ratio * data.w;
+			var hh = ratio * data.h;
+			var xx = ratio * data.x;
+			var yy = ratio * data.y;
 
 			$(el).find('div').css({
 				'left' : xx,
@@ -111,17 +138,23 @@
 		}
 
 		// Taken from
-		// https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript#2117523
-		function uuidv4() {
-			return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-				var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-				return v.toString(16);
+		// https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript#8809472
+		function get_unique_id() { // Public Domain/MIT
+			var d = new Date().getTime();
+			if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
+				// use high-precision timer if available
+				d += performance.now();
+			}
+			return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+				var r = (d + Math.random() * 16) % 16 | 0;
+				d = Math.floor(d / 16);
+				return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
 			});
 		}
 
 		function debug(str) {
 			if (settings.debug) {
-				console.log(str);
+				console.log('imgbox: ' + str);
 			}
 		}
 
