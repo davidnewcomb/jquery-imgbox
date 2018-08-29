@@ -19,12 +19,24 @@
 			},
 			// z-index of border
 			markZIndex : 1000,
-			// Wrap the IMG tag if the coordinates are invalid
-			wrap_if_invalid : false
+			// Wrap the IMG tag if the coordinates are invalid, such
+			// as edit
+			wrap_if_invalid : false,
+
+			// Addition features
+			// edit - edit co-ordinate box
+			command : ''
 		}, options);
 
 		var allElments = this;
 		var imgbox_class = 'imgbox' + get_unique_id();
+
+		// console.log(imgbox_class);
+		var edit_button_down = false;
+		var edit_x = 0;
+		var edit_y = 0;
+		var edit_x2 = 0;
+		var edit_y2 = 0;
 
 		init();
 
@@ -37,22 +49,78 @@
 			}
 			$(window).on('resize', window_resize_imgbox);
 			init_imgbox();
+
+			// if (settings.command == 'edit') {
+			// console.log('this');
+			// console.log($(allElments));
+			//
+			// // $(allElments).on('click', edit_click);
+			// // $(allElments).on('mousemove', edit_mousemove);
+			// }
+
+		}
+
+		function edit_redraw(s) {
+			console.log(s + ' button-down=' + edit_button_down + " " + edit_x + "," + edit_y + " -> "
+				+ edit_x2 + " " + edit_y2);
+
+			resize_imgbox(0, $(allElments).parent());
+			// $(allElments).parent().find('div')
+			console.log($(allElments))
+		}
+
+		function edit_click(e) {
+			if (edit_button_down) {
+				edit_x2 = e.offsetX;
+				edit_y2 = e.offsetY;
+			} else {
+				edit_x = e.offsetX;
+				edit_y = e.offsetY;
+			}
+			edit_button_down = !edit_button_down;
+			edit_redraw('!!!click');
+		}
+
+		function edit_mousemove(e) {
+			if (edit_button_down) {
+				edit_x2 = e.offsetX;
+				edit_y2 = e.offsetY;
+				edit_redraw('!!!mousemove');
+			}
 		}
 
 		function replace_imgboxes() {
 			var style = to_css_string(settings.markStyle);
 			var page_contains_elements = false;
-			allElments.each(function() {
-				var data = validate_data($(this).data());
+			allElments.each(function(idx, el) {
+				var data = validate_data($(el).data());
 
-				if (data == null && settings.wrap_if_invalid == false) {
-					debug('invalid coords id')
-					return;
+				if (data == null) {
+					if (settings.wrap_if_invalid == true) {
+						data = {
+							'x' : 0,
+							'y' : 0,
+							'x2' : 0,
+							'y2' : 0
+						};
+						$(el).data(data);
+					} else {
+						debug('invalid coords id')
+						return;
+					}
 				}
-				var img = this.outerHTML;
-				var d = '<div class="' + imgbox_class + '" style="position: relative;">' + img
-					+ '<div style="' + style + '"></div></div>';
-				$(this).replaceWith(d);
+
+				// get events attached to img
+				// $(this).click();
+				var parent = $(el).parent();
+				var marker = $('<div>').css(settings.markStyle);
+				var div = $('<div>').attr({
+					'class' : imgbox_class
+				}).css({
+					'position' : 'relative'
+				}).append($(el)).append(marker);
+				$(parent).append(div);
+				div.each(resize_imgbox);
 				page_contains_elements = true;
 			});
 			return page_contains_elements;
@@ -102,7 +170,26 @@
 			var data = validate_data($img.data());
 
 			if (data == null) {
-				return;
+				if (settings.wrap_if_invalid) {
+					var w = Math.abs(edit_x - edit_x2);
+					var h = Math.abs(edit_y - edit_y2);
+					data = {
+						'x' : edit_x,
+						'y' : edit_y,
+						'w' : w,
+						'h' : h
+					};
+					$img.data(data);
+					// resize_imgbox(idx, el);
+					// $(el).find('div').css({
+					// 'left' : 10,
+					// 'top' : 10,
+					// 'width' : 20,
+					// 'height' : 20
+					// });
+				} else {
+					return;
+				}
 			}
 
 			var width = $img.width();
@@ -154,7 +241,7 @@
 
 		function debug(str) {
 			if (settings.debug) {
-				console.log('imgbox: ' + str);
+				console.log('imgbox: ' + imgbox_class + ' - ' + str);
 			}
 		}
 
