@@ -33,9 +33,8 @@
 		settings.markStyle['position'] = 'absolute';
 
 		var allElments = this;
-		var imgbox_class = 'imgbox' + get_unique_id();
+		var imgbox_class = 'imgbox-group-' + get_unique_id();
 
-		// console.log(imgbox_class);
 		var edit_button_down = false;
 		var edit_x = 0;
 		var edit_y = 0;
@@ -70,41 +69,11 @@
 		}
 
 		function edit_click(e) {
-			if (edit_button_down) {
-				edit_x2 = e.offsetX;
-				edit_y2 = e.offsetY;
-			} else {
-				edit_x = edit_x2 = e.offsetX;
-				edit_y = edit_y2 = e.offsetY;
-			}
-			var parent = $(this).parent();
-			// console.log('click!!');
-			edit_redraw(parent, '!!!click-' + edit_button_down);
-			edit_button_down = !edit_button_down;
+			mouse_click(this, e.offsetX, e.offsetY);
 		}
 
 		function edit_marker_click(e) {
-			if (edit_button_down) {
-				// First click
-				edit_x2 = edit_x + e.offsetX;
-				edit_y2 = edit_y + e.offsetY;
-				settings.save_box({
-					'x' : edit_x,
-					'y' : edit_y,
-					'x2' : edit_x2,
-					'y2' : edit_y2,
-					'w' : Math.abs(edit_x - edit_x2),
-					'h' : Math.abs(edit_y - edit_y2)
-				})
-			} else {
-				// Second click
-				edit_x = edit_x2 = e.offsetX;
-				edit_y = edit_y2 = e.offsetY;
-			}
-			var parent = $(this).parent();
-			// console.log('click!!');
-			edit_redraw(parent, '!!!click-' + edit_button_down);
-			edit_button_down = !edit_button_down;
+			mouse_click(this, edit_x + e.offsetX, edit_y + e.offsetY);
 		}
 
 		function edit_mousemove(e) {
@@ -120,9 +89,31 @@
 				edit_x2 = x;
 				edit_y2 = y;
 				var parent = $(thiz).parent();
-				console.log(parent);
 				edit_redraw(parent, '!!!mousemove');
 			}
+		}
+
+		function mouse_click(thiz, x, y) {
+			if (edit_button_down) {
+				// Second click
+				edit_x2 = x;
+				edit_y2 = y;
+				settings.save_box({
+					'x' : edit_x,
+					'y' : edit_y,
+					'x2' : edit_x2,
+					'y2' : edit_y2,
+					'w' : Math.abs(edit_x - edit_x2),
+					'h' : Math.abs(edit_y - edit_y2)
+				})
+			} else {
+				// First click
+				edit_x = edit_x2 = x;
+				edit_y = edit_y2 = y;
+			}
+			var parent = $(thiz).parent();
+			edit_redraw(parent, '!!!click-' + edit_button_down);
+			edit_button_down = !edit_button_down;
 		}
 
 		function replace_imgboxes() {
@@ -230,7 +221,6 @@
 
 			var width = $img.width();
 			var realWidth = $img[0].naturalWidth;
-			// console.log('*** realWidth ' + realWidth);
 			var ratio = width / realWidth;
 
 			var xx = Math.floor(ratio * data.x);
@@ -263,13 +253,22 @@
 			});
 		}
 
+		/*
+		 * Override 'save_box' to save co-ordinates. coord { x, y, w, h,
+		 * x2, y2 }
+		 */
 		function callback_save_box(coord) {
-			console.log(coord);
+			debug(coord);
 		}
 
 		function debug(str) {
 			if (settings.debug) {
-				console.log('imgbox: ' + imgbox_class + ' - ' + str);
+				if ((typeof str === "string") && (str !== null)) {
+					console.log('imgbox: ' + imgbox_class + ' - ' + str);
+				} else {
+					console.log('imgbox: ' + imgbox_class);
+					console.log(str);
+				}
 			}
 		}
 
