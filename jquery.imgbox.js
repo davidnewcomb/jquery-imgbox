@@ -12,11 +12,10 @@
 
 		var default_settings = {
 			// extra messages
-			debug : true,
+			debug : false,
 			// set of highlight styles
 			markStyle : {
-				'border' : '1px solid red',
-				'z-index' : 1000
+				'border' : '1px solid red'
 			},
 			// Wrap the IMG tag if the coordinates are invalid, such
 			// as edit
@@ -36,10 +35,12 @@
 		var imgbox_class = 'imgbox-group-' + get_unique_id();
 
 		var edit_button_down = false;
-		var edit_x = 0;
-		var edit_y = 0;
-		var edit_x2 = 0;
-		var edit_y2 = 0;
+
+		var start_x = 0;
+		var start_y = 0;
+		var end_x = 0;
+		var end_y = 0;
+		var normalised_coords;
 
 		init();
 
@@ -61,11 +62,8 @@
 		}
 
 		function edit_redraw(obj, s) {
-			debug(s + ' button-down=' + edit_button_down + " " + edit_x + "," + edit_y + " -> " + edit_x2
-				+ " " + edit_y2);
-
+			normalised_coords = calcCoords(start_x, start_y, end_x, end_y);
 			obj.each(resize_imgbox);
-			// resize_imgbox(0, $(obj));
 		}
 
 		function edit_click(e) {
@@ -73,7 +71,8 @@
 		}
 
 		function edit_marker_click(e) {
-			mouse_click(this, edit_x + e.offsetX, edit_y + e.offsetY);
+			var off = div_position(this);
+			mouse_click(this, off.x + e.offsetX, off.y + e.offsetY);
 		}
 
 		function edit_mousemove(e) {
@@ -81,13 +80,20 @@
 		}
 
 		function edit_marker_mousemove(e) {
-			mouse_move(this, edit_x + e.offsetX, edit_y + e.offsetY);
+			var off = div_position(this);
+			mouse_move(this, off.x + e.offsetX, off.y + e.offsetY);
 		}
 
+		function div_position(div) {
+			var o = {};
+			o.x = parseInt($(div).css('left').replace(/px/, ''));
+			o.y = parseInt($(div).css('top').replace(/px/, ''));
+			return o;
+		}
 		function mouse_move(thiz, x, y) {
 			if (edit_button_down) {
-				edit_x2 = x;
-				edit_y2 = y;
+				end_x = x;
+				end_y = y;
 				var parent = $(thiz).parent();
 				edit_redraw(parent, '!!!mousemove');
 			}
@@ -96,20 +102,15 @@
 		function mouse_click(thiz, x, y) {
 			if (edit_button_down) {
 				// Second click
-				edit_x2 = x;
-				edit_y2 = y;
-				settings.save_box({
-					'x' : edit_x,
-					'y' : edit_y,
-					'x2' : edit_x2,
-					'y2' : edit_y2,
-					'w' : Math.abs(edit_x - edit_x2),
-					'h' : Math.abs(edit_y - edit_y2)
-				})
+				end_x = x;
+				end_y = y;
+				normalised_coords = calcCoords(start_x, start_y, end_x, end_y);
+				settings.save_box(normalised_coords);
 			} else {
 				// First click
-				edit_x = edit_x2 = x;
-				edit_y = edit_y2 = y;
+				end_x = start_x = x;
+				end_y = start_y = y;
+				normalised_coords = calcCoords(start_x, start_y, end_x, end_y);
 			}
 			var parent = $(thiz).parent();
 			edit_redraw(parent, '!!!click-' + edit_button_down);
@@ -117,7 +118,6 @@
 		}
 
 		function replace_imgboxes() {
-			// var style = to_css_string(settings.markStyle);
 			var page_contains_elements = false;
 			allElments.each(function(idx, el) {
 				var data = validate_data($(el).data());
@@ -136,10 +136,11 @@
 					}
 				}
 
-				// var marker_css = $.extend({},
-				// settings.markStyle, data);
-
 				var parent = $(el).parent();
+				if (settings.command == 'edit') {
+					$(el).css('padding', '0px');
+					$(el).css('margin', '0px');
+				}
 				var marker = $('<div>');
 				$(marker).on('click', edit_marker_click);
 				$(marker).on('mousemove', edit_marker_mousemove);
@@ -204,14 +205,7 @@
 			var data;
 
 			if (settings.command == 'edit' && edit_button_down) {
-				var w = Math.abs(edit_x - edit_x2);
-				var h = Math.abs(edit_y - edit_y2);
-				data = {
-					'x' : edit_x,
-					'y' : edit_y,
-					'w' : w,
-					'h' : h
-				};
+				data = normalised_coords = calcCoords(start_x, start_y, end_x, end_y);
 			} else {
 				data = validate_data($img.data());
 				if (data == null) {
@@ -258,17 +252,23 @@
 		 * x2, y2 }
 		 */
 		function callback_save_box(coord) {
-			debug(coord);
+			console.log(coord);
+		}
+
+		function calcCoords(s_x, s_y, e_x, e_y) {
+			var o = {};
+			o.x = Math.min(s_x, e_x);
+			o.y = Math.min(s_y, e_y);
+			o.x2 = Math.max(s_x, e_x);
+			o.y2 = Math.min(s_y, e_y);
+			o.w = Math.abs(s_x - e_x);
+			o.h = Math.abs(s_y - e_y);
+			return o;
 		}
 
 		function debug(str) {
 			if (settings.debug) {
-				if ((typeof str === "string") && (str !== null)) {
-					console.log('imgbox: ' + imgbox_class + ' - ' + str);
-				} else {
-					console.log('imgbox: ' + imgbox_class);
-					console.log(str);
-				}
+				console.log('imgbox: ' + imgbox_class, str);
 			}
 		}
 
