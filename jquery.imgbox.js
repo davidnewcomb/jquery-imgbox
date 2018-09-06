@@ -61,7 +61,7 @@
 
 		}
 
-		function edit_redraw(obj, s) {
+		function edit_redraw(obj) {
 			normalised_coords = calcCoords(start_x, start_y, end_x, end_y);
 			obj.each(resize_imgbox);
 		}
@@ -95,7 +95,7 @@
 				end_x = x;
 				end_y = y;
 				var parent = $(thiz).parent();
-				edit_redraw(parent, '!!!mousemove');
+				edit_redraw(parent);
 			}
 		}
 
@@ -113,7 +113,7 @@
 				normalised_coords = calcCoords(start_x, start_y, end_x, end_y);
 			}
 			var parent = $(thiz).parent();
-			edit_redraw(parent, '!!!click-' + edit_button_down);
+			edit_redraw(parent);
 			edit_button_down = !edit_button_down;
 		}
 
