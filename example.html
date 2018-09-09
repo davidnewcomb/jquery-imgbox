@@ -145,7 +145,7 @@ jQuery plugin that draws a box over an image. The box can be decorated with CSS.
  });</pre>
 		</div>
 		<div class="col-sm-6 col-lg-6">
-			<img id="adjustbox" data-x="660" data-y="560" data-w="340" data-h="430" src="https://scontent-lht6-1.xx.fbcdn.net/v/t1.0-9/31952631_10156408571974468_4533371863924998144_o.jpg?_nc_cat=0&oh=bff4923c3b0d9fefc97c33310b59d555&oe=5C33194B"/>
+			<img id="adjustbox" data-x="660" data-y="560" data-w="340" data-h="430" class="img-responsive" src="https://scontent-lht6-1.xx.fbcdn.net/v/t1.0-9/31952631_10156408571974468_4533371863924998144_o.jpg?_nc_cat=0&oh=bff4923c3b0d9fefc97c33310b59d555&oe=5C33194B"/>
 			<br/>
 			<input id="adjustbox_out" type="text" value="Watch me!" style="width:100%;"/>
 		</div>
@@ -154,7 +154,7 @@ jQuery plugin that draws a box over an image. The box can be decorated with CSS.
 
 <script>
 $(document).ready(function() {
-	$('.imgbox').imgbox({markStyle:{'background-color':'white','opacity': '0.2', 'border': '4px dotted white'}});
+ 	$('.imgbox').imgbox({markStyle:{'background-color':'white','opacity': '0.2', 'border': '4px dotted white'}});
 	$('#jack_me').imgbox({markStyle:{'border': '4px solid red'}});
 	$('#fencing').imgbox({markStyle:{'border': '10px solid yellow'}});
 	$('#party_jack').imgbox({markStyle:{'border': '5px dashed cyan'}});
