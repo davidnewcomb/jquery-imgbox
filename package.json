@@ -4,6 +4,8 @@
 	"description": "A jQuery plugin that draws a box over an image.",
 	"main": "jquery.imgbox.min.js",
 	"scripts": {
+		"build": "./build.sh",
+		"env": "env",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {
