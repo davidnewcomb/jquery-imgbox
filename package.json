@@ -1,31 +1,31 @@
 {
-  "name": "jquery-imgbox",
-  "version": "1.1.0",
-  "description": "A jQuery plugin that draws a box over an image.",
-  "main": "jquery.imgbox.min.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/davidnewcomb/jquery-imgbox.git"
-  },
-  "keywords": [
-    "jquery",
-    "image",
-    "mark",
-    "box"
-  ],
-  "author": "David Newcomb <david.newcomb@bigsoft.co.uk> (http://www.bigsoft.co.uk)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/davidnewcomb/jquery-imgbox/issues"
-  },
-  "homepage": "https://github.com/davidnewcomb/jquery-imgbox#readme",
-  "dependencies": {
-    "jquery": "^3.0.0"
-  },
-  "devDependencies": {
-    "uglify-js": "^3.0.0"
-  }
+	"name": "jquery-imgbox",
+	"version": "1.1.0",
+	"description": "A jQuery plugin that draws a box over an image.",
+	"main": "jquery.imgbox.min.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/davidnewcomb/jquery-imgbox.git"
+	},
+	"keywords": [
+		"jquery",
+		"image",
+		"mark",
+		"box"
+	],
+	"author": "David Newcomb <david.newcomb@bigsoft.co.uk> (http://www.bigsoft.co.uk)",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/davidnewcomb/jquery-imgbox/issues"
+	},
+	"homepage": "https://github.com/davidnewcomb/jquery-imgbox#readme",
+	"dependencies": {
+		"jquery": "^3.0.0"
+	},
+	"devDependencies": {
+		"uglify-js": "^3.0.0"
+	}
 }
