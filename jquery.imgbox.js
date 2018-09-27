@@ -1,5 +1,5 @@
 /*
- *  jquery-imgbox - v2.0.0
+ *  jquery-imgbox - v1.1.0
  *  A jQuery plugin that draws a box over an image.
  *  https://github.com/davidnewcomb/jquery-imgbox/
  *
@@ -43,7 +43,7 @@
 			wrapIfInvalid : false,
 
 			// Interval to update when image not there
-			retryTimeout : 1000
+			retryInterval : 1000
 		};
 
 		var settings = $.extend(defaultSettings, options);
@@ -111,6 +111,7 @@
 			o.y = parseInt($(div).css('top').replace(/px/, ''));
 			return o;
 		}
+
 		function mouseMove(both, x, y) {
 			if (editButtonDown) {
 				endX = x;
@@ -150,7 +151,7 @@
 			o.y2 = Math.floor(coords.y2 * ratio);
 			o.w = Math.floor(coords.w * ratio);
 			o.h = Math.floor(coords.h * ratio);
-
+			$img.data(o);
 			settings.saveBox(o);
 		}
 
@@ -218,7 +219,7 @@
 					if (worked) {
 						clearInterval(timer);
 					}
-				}, settings.retryTimeout);
+				}, settings.retryInterval);
 			}
 		}
 
@@ -271,6 +272,7 @@
 			return o;
 
 		}
+
 		// Taken from
 		// https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript#8809472
 		function getUniqueId() { // Public Domain/MIT

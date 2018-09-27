@@ -3,10 +3,13 @@ jQuery plugin that draws a box over an image.
 
 ## Overview
 
-This plugin can be used with minimum changes to your existing code.
-ImgBox reads `data-` attributes to your img tags and draws a custom styled box.
+ImgBox reads `data-` attributes to your image tags and draws a custom styled box over the image.
 See the [demo page](https://cdn.rawgit.com/davidnewcomb/jquery-imgbox/master/example.html)
 for examples.
+
+ImgBox also has an drawable edit mode and you can update the position of the box yourself at anytime.
+
+This plugin can be used with minimum changes to your existing code.
 
 ## Dependencies
 
@@ -14,7 +17,9 @@ for examples.
 
 ## Usage
 
-Place the exta data items into your image tags. You may use width/height or a second set of
+### Read-only
+
+Place the extra data items into your image tags. You may use width/height or a second set of
 co-ordinates. The following 2 are equivalent.
 ```html
 <img data-x="10" data-y="10" data-w="10" data-h="10" class=".." src=".." />
@@ -30,9 +35,44 @@ $(document).ready(function() {
 });
 ```
 
+### Editable
+
+The ImgBox has a simple edit mode. Click to set the start point, move the mouse to a
+new position and click again to trigger the callback function. The `data` object
+contains the saved `x`, `y`, `w`, `h`, `x2`, `y2`.
+```js
+function(data) {}
+```
+
+To switch on edit mode, specify the `command` as `edit` and add the `saveBox` callback.
+```js
+$(document).ready(function() {
+	var imgAdmin = $('img').imgbox({
+	markStyle : {
+		'border' : '5px solid blue'
+	},
+	command : 'edit',
+	saveBox : function(data) {
+		console.log('Thanks for using ImgBox!');
+	}
+});
+```
+
+If you want to change the co-ordinates then you need access to the callback object.
+```js
+$(document).ready(function() {
+	var newData = {x: 10, y:10, w:10, h:10};
+	var imgAdmin = $('img').imgbox();
+	$(img).data(newData);
+	imgAdmin.redraw();
+});
+```
+
+Make a PR is you would like to add anything to `imgAdmin`.
+
 ## Options
 
-Here's a list of available settings.
+Here's the list of available settings.
 
 ### HTML settings
 To be used in `IMG` tags.
@@ -52,9 +92,14 @@ If `w`, `h`, `x2` and `y2` are used, then `w`, `h` take precedence.
 
 Attribute	| Type			| Default				| Description
 ---		| ---			| ---					| ---
-`markStyle`	| *Object*		| `{'border' : '1px solid red'}`	| Red solid border line.
-`markZIndex`	| *Number*		| `1000`				| CSS `z-index` value.
+`markStyle`	| *Object*		| `{'border' : '1px solid yellow'}`	| CSS for box, yellow solid border line.
 `debug`		| *Boolean*		| `false`				| Some extra information.
+`name`		| *String*		| `''`					| Name added to debug messages
+`command`	| *String*		| `''`					| Type of ImgBox, currently only '' or 'edit'
+`saveBox`	| *Function*		| Prints imgbox data on `console.log`	| Callback `function(data){}` on save
+`wrapIfInvalid`	| *Boolean*		| `false`				| Wrap `img` even if no co-ordinates
+`retryInterval`	| *Number*		| `1000`				| If `img.src` has not loaded retry redraw in milliseconds.
+
 
 ## License
 

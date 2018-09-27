@@ -33,20 +33,17 @@ jQuery plugin that draws a box over an image. The box can be decorated with CSS.
 			<div class="panel panel-default">
 				<div class="panel-body">Use x and y co-ordinates with width and height.</div>
 			</div>
-<pre>&lt;img
- id="jack_me"
- class="img-responsive"
- data-x="525" data-y="50"
- data-w="300" data-h="350"
- src="jack_me.jpg"/&gt;</pre>
-<pre>$('#jack_me').imgbox({
- markStyle:{
-  'border': '4px solid red'
- }
+			<pre id="jack_me_code"></pre>
+			<pre>$('#jack_me').imgbox({
+    name: "#jack_me",
+    markStyle : {
+        'border' : '4px solid red'
+    }
 });</pre>
 		</div>
 		<div class="col-sm-6 col-lg-6">
-			<img id="jack_me" class="img-responsive" data-x="525" data-y="50" data-w="300" data-h="350" src="https://scontent-lht6-1.xx.fbcdn.net/v/t1.0-9/30706113_10156369591739468_7247340090861715801_n.jpg?_nc_cat=0&oh=e48a59b1d9b0479a073206e54f71f8c5&oe=5BD0D8AF"/>
+			<img id="jack_me" class="img-responsive" data-x="525" data-y="50" data-w="300" data-h="350"
+			src="https://scontent-lht6-1.xx.fbcdn.net/v/t1.0-9/30706113_10156369591739468_7247340090861715801_n.jpg?_nc_cat=0&oh=e48a59b1d9b0479a073206e54f71f8c5&oe=5BD0D8AF"/>
 		</div>
 	</div>
 
@@ -61,23 +58,19 @@ jQuery plugin that draws a box over an image. The box can be decorated with CSS.
 			<div class="panel panel-default">
 				<div class="panel-body">Use starting x,y and ending x2,y2.</div>
 			</div>
-<pre>&ltimg
- class="img-responsive imgbox"
- data-x="830" data-y="600"
- data-x2="1220" data-y2="1050"
- src="fest.jpg"
-/&gt;</pre>
-<pre>$('.imgbox').imgbox({
- markStyle : {
-  'background-color' : 'white',
-  'opacity' : '0.2',
-  'border' : '4px dotted white'
- }
-});
-</pre>
+			<pre id="fest_code"></pre>
+			<pre>$('.imgbox').imgbox({
+    name: ".imgbox",
+    markStyle : {
+        'background-color' : 'white',
+        'opacity' : '0.2',
+        'border' : '4px dotted white'
+    }
+});</pre>
 		</div>
 		<div class="col-sm-6 col-lg-6">
-			<img class="img-responsive imgbox" data-x="830" data-y="600" data-x2="1220" data-y2="1050" src="fest.jpg"/>
+			<img id="fest" class="img-responsive imgbox" data-x="830" data-y="600" data-x2="1220" data-y2="1050"
+			src="https://scontent-lht6-1.xx.fbcdn.net/v/t31.0-8/19477733_10155502258319468_1320011948616978230_o.jpg?_nc_cat=0&oh=f7fbad2cb1aafa842b3ed0c7a076d2ee&oe=5BDF622B"/>
 		</div>
 	</div>
 
@@ -92,26 +85,20 @@ jQuery plugin that draws a box over an image. The box can be decorated with CSS.
 			<div class="panel panel-default">
 				<div class="panel-body">Reusing style from <code>imgbox</code>. Wrap your image in anything like an anchor link.</div>
 			</div>
-<pre>&lt;a href="README.md"&gt;
- &lt;img
-  class="img-responsive imgbox"
-  data-x="15" data-y="110"
-  data-w="70" data-h="80"
-  src=".."
- /&gt;
-&lt;/a&gt;</pre>
-<pre>$('.imgbox').imgbox({
- markStyle : {
-  'background-color' : 'white',
-  'opacity' : '0.2',
-  'border' : '4px dotted white'
- }
-});
-</pre>
+			<pre id="family_code"></pre>
+			<pre>$('.imgbox').imgbox({
+    name: ".imgbox",
+    markStyle : {
+        'background-color' : 'white',
+        'opacity' : '0.2',
+        'border' : '4px dotted white'
+    }
+});</pre>
 		</div>
 		<div class="col-sm-8 col-lg-8">
 			<a href="README.md">
-				<img class="img-responsive imgbox" data-x="15" data-y="110" data-w="70" data-h="80" src="family.jpg"/>
+				<img id="family" class="img-responsive imgbox" data-x="15" data-y="110" data-w="70" data-h="80"
+				src="https://scontent-lht6-1.xx.fbcdn.net/v/t1.0-9/29063591_1514555798592237_6102906196971225088_n.jpg?_nc_cat=0&oh=7eb847eec94f180d2be8ee2c62b46ea8&oe=5BEB8B6D"/>
 			</a>
 		</div>
 	</div>
@@ -127,22 +114,17 @@ jQuery plugin that draws a box over an image. The box can be decorated with CSS.
 			<div class="panel panel-default">
 				<div class="panel-body">Use with clickables, like alerts, to your <code>IMG</code> in the normal way.</div>
 			</div>
-<pre>&lt;img
- id="party_jack"
- class="img-responsive"
- data-x="125" data-y="250"
- data-x2="400" data-y2="650"
- onclick="alert('David is Ace!');"
- src="party_jack.jpg"
-/&gt;</pre>
-<pre>$('#party_jack').imgbox({
- markStyle:{
-  'border': '5px dashed cyan'
- }
+			<pre id="party_jack_code"></pre>
+			<pre>$('#party_jack').imgbox({
+    name: "#party_jack",
+    markStyle : {
+        'border' : '5px dashed cyan'
+    }
 });</pre>
 		</div>
 		<div class="col-sm-6 col-lg-6">
-			<img id="party_jack" class="img-responsive" data-x="125" data-y="250" data-x2="400" data-y2="650" onclick="alert('David is Ace!');" src="party_jack.jpg"/>
+			<img id="party_jack" class="img-responsive" data-x="125" data-y="250" data-x2="400" data-y2="650" onclick="alert('David is Ace!');"
+			src="https://scontent-lht6-1.xx.fbcdn.net/v/t1.0-9/30742006_10156372229684468_8950380119808659824_n.jpg?_nc_cat=0&oh=026081fa5cb58b6f1985314707fc74b9&oe=5BDEBFD7"/>
 		</div>
 	</div>
 
@@ -157,53 +139,56 @@ jQuery plugin that draws a box over an image. The box can be decorated with CSS.
 			<div class="panel panel-default">
 				<div class="panel-body">Adjust the box. Click once to start drawing, click again to save.</div>
 			</div>
-<pre>&lt;img
- id="arcadia"
- class="img-responsive"
- data-x="660" data-y="560"
- data-w="340" data-h="430"
- src="arcadia.jpg"
-/&gt;
-&lt;img
- id="arcadia_copy"
- data-x="660" data-y="560"
- data-w="340" data-h="430"
- class="img-responsive"
- src="arcadia.jpg"
-/&gt;
-&lt;input
- id="arcadia_out" type="text"
- value="Redraw the box around Arcadia's eyes"
-/>
- </pre>
-<pre>$('#arcadia').imgbox({
- markStyle : {
-  'border' : '5px solid blue'
- },
- command : 'edit',
- save_box : function(o) {
-  $('#arcadia_out').val(JSON.stringify(o));
-  $('#arcadia_copy').data(o);
-  $('#arcadia_copy').imgbox({
-   markStyle : {
-    'border' : '2px solid yellow'
-   }
-  });
- }
+			<pre id="arcadia_big_code"></pre>
+			<pre id="arcadia_small_code"></pre>
+<pre>var arcadiaBigCallback = null;
+var arcadiaSmallCallback = null;
+
+function updateBig(data) {
+    $('#arcadia_out').val(JSON.stringify(data));
+    $('#arcadia_big').data(data);
+    arcadiaBigCallback.redraw();
+}
+
+function updateSmall(data) {
+    $('#arcadia_out').val(JSON.stringify(data));
+    $('#arcadia_small').data(data);
+    arcadiaSmallCallback.redraw();
+}
+
+arcadiaBigCallback = $('#arcadia_big').imgbox({
+    name: '#arcadia_big',
+    debug: true,
+    markStyle : {
+        'border' : '5px solid blue'
+    },
+    command : 'edit',
+    saveBox : updateSmall
 });
-</pre>
+
+arcadiaSmallCallback = $('#arcadia_small').imgbox({
+    name: '#arcadia_small',
+    debug: true,
+    markStyle : {
+        'border' : '2px solid yellow'
+    },
+    command : 'edit',
+    saveBox : updateBig
+});</pre>
 		</div>
 		<div class="col-sm-6 col-lg-6">
 			<div class="row">
 				<div class="col-sm-8 col-lg-8">
-					<img id="arcadia_big" data-x="660" data-y="560" data-w="340" data-h="430" class="img-responsive" src="arcadia.jpg"/>
+					<img id="arcadia_big" data-x="660" data-y="560" data-w="340" data-h="430" class="img-responsive"
+					src="https://scontent-lht6-1.xx.fbcdn.net/v/t1.0-9/31952631_10156408571974468_4533371863924998144_o.jpg?_nc_cat=109&oh=b4fbf9d7d72968d74d65913b4afcfd79&oe=5C5AA64B"/>
 				</div>
 				<div class="col-sm-4 col-lg-4">
-					<img id="arcadia_small" data-x="660" data-y="560" data-w="340" data-h="430" class="img-responsive" src="arcadia.jpg"/>
+					<img id="arcadia_small" data-x="660" data-y="560" data-w="340" data-h="430" class="img-responsive"
+					src="https://scontent-lht6-1.xx.fbcdn.net/v/t1.0-9/31952631_10156408571974468_4533371863924998144_o.jpg?_nc_cat=109&oh=b4fbf9d7d72968d74d65913b4afcfd79&oe=5C5AA64B"/>
 				</div>
 			</div>
 			<div class="row">
-				<input id="arcadia_out" type="text" value="Redraw the box around Arcadia's eyes" style="width:100%;"/>
+				<input id="arcadia_out" type="text" value="Redraw the box around Arcadia's eyes in both pictures" style="width:100%;"/>
 			</div>
 		</div>		
 	</div>
@@ -211,10 +196,25 @@ jQuery plugin that draws a box over an image. The box can be decorated with CSS.
 </div>
 
 <script>
-$(document).ready(function() {
 
+function writeCode(id) {
+	var img = $('#' + id)[0].outerHTML;
+	var example = img.replace(/src=".*"/, 'src=".."').replace(/ /g, '\n   ');
+	$('#' + id + '_code').text(example);
+}
+// Show code (nothing to do with the example)
+writeCode('jack_me');
+writeCode('fest');
+writeCode('family');
+writeCode('party_jack');
+writeCode('arcadia_big');
+writeCode('arcadia_small');
+
+$(document).ready(function() {
+	
+	// Examples
 	$('.imgbox').imgbox({
-		name: ".imgbox",
+		name: '.imgbox',
 		markStyle : {
 			'background-color' : 'white',
 			'opacity' : '0.2',
@@ -222,52 +222,51 @@ $(document).ready(function() {
 		}
 	});
 	$('#jack_me').imgbox({
-		name: "#jack_me",
+		name: '#jack_me',
 		markStyle : {
 			'border' : '4px solid red'
 		}
 	});
 	$('#party_jack').imgbox({
-		name: "#party_jack",
+		name: '#party_jack',
 		markStyle : {
 			'border' : '5px dashed cyan'
 		}
 	});
 	
-	var arcadia_big_callback = null;
-	var arcadia_small_callback = null;
+	var arcadiaBigCallback = null;
+	var arcadiaSmallCallback = null;
 	
-	function update_big(data) {
+	function updateBig(data) {
 		$('#arcadia_out').val(JSON.stringify(data));
 		$('#arcadia_big').data(data);
-		$('#arcadia_small').data(data);
-		arcadia_big_callback.redraw();
+		arcadiaBigCallback.redraw();
 	}
 
-	function update_small(data) {
+	function updateSmall(data) {
 		$('#arcadia_out').val(JSON.stringify(data));
 		$('#arcadia_small').data(data);
-		$('#arcadia_big').data(data);
-		arcadia_small_callback.redraw();
+		arcadiaSmallCallback.redraw();
 	}
 	
-	arcadia_big_callback = $('#arcadia_big').imgbox({
-		name: "#arcadia_big",
+	arcadiaBigCallback = $('#arcadia_big').imgbox({
+		name: '#arcadia_big',
 		debug: true,
 		markStyle : {
 			'border' : '5px solid blue'
 		},
 		command : 'edit',
-		save_box : update_small
+		saveBox : updateSmall
 	});
-	arcadia_small_callback = $('#arcadia_small').imgbox({
-		name: "#arcadia_small",
+	
+	arcadiaSmallCallback = $('#arcadia_small').imgbox({
+		name: '#arcadia_small',
 		debug: true,
 		markStyle : {
 			'border' : '2px solid yellow'
 		},
 		command : 'edit',
-		save_box : update_big
+		saveBox : updateBig
 	});
 
 });
