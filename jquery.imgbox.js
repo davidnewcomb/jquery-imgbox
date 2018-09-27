@@ -1,5 +1,5 @@
 /*
- *  jquery-imgbox - v1.0.0
+ *  jquery-imgbox - v2.0.0
  *  A jQuery plugin that draws a box over an image.
  *  https://github.com/davidnewcomb/jquery-imgbox/
  *
@@ -10,116 +10,135 @@
 
 	$.fn.imgbox = function(options) {
 
-		var default_settings = {
+		// Public functions
+		var publicFn = {};
+
+		var uniq = getUniqueId();
+
+		var defaultSettings = {
+
+			// Debug
+
 			// extra messages
 			debug : false,
+			// nice name, for debugging
+			name : '',
+
 			// set of highlight styles
 			markStyle : {
-				'border' : '1px solid red'
+				'border' : '1px solid yellow'
 			},
-			// Wrap the IMG tag if the coordinates are invalid, such
-			// as edit
-			wrap_if_invalid : false,
 
 			// Addition features
+
 			// edit - edit co-ordinate box
 			command : '',
 			// Call back to save box co-ordinates
-			save_box : callback_save_box
-		}
+			saveBox : callbackSaveBox,
 
-		var settings = $.extend(default_settings, options);
+			// Mainly internal use
+
+			// Wrap the IMG tag if the coordinates are invalid, such
+			// as edit
+			wrapIfInvalid : false,
+
+			// Interval to update when image not there
+			retryTimeout : 1000
+		};
+
+		var settings = $.extend(defaultSettings, options);
 		if (settings.command == 'edit') {
-			settings.wrap_if_invalid = true;
+			settings.wrapIfInvalid = true;
 		}
 		settings.markStyle['position'] = 'absolute';
 
 		var allElments = this;
-		var parent_class = 'imgbox-group-' + get_unique_id();
+		var parentClass = 'imgbox-group-' + uniq;
 
-		var edit_button_down = false;
+		var editButtonDown = false;
 
-		var start_x = 0;
-		var start_y = 0;
-		var end_x = 0;
-		var end_y = 0;
-		var normalised_coords;
+		var startX = 0;
+		var startY = 0;
+		var endX = 0;
+		var endY = 0;
+		var normalisedCoords;
+		var debugLabel = debugLabel();
 
 		init();
+		$('.' + parentClass).each(resizeImgbox);
 
 		function init() {
-			var page_contains_elements = replace_imgboxes();
-			if (page_contains_elements == false) {
+			var pageContainsElements = replaceImgboxes();
+			if (pageContainsElements == false) {
 				debug('page contains no elements');
 				return;
 			}
-			$(window).on('resize', window_resize_imgbox);
-			init_imgbox();
+			$(window).on('resize', windowResizeImgbox);
 
 			if (settings.command == 'edit') {
-				debug('command==edit');
-				$(allElments).on('click', edit_click);
-				$(allElments).on('mousemove', edit_mousemove);
+				debug('settings.command:edit');
+				$(allElments).on('click', editClick);
+				$(allElments).on('mousemove', editMousemove);
 			}
 		}
 
-		function edit_redraw(parent) {
-			normalised_coords = calcCoords(start_x, start_y, end_x, end_y);
-			parent.each(resize_imgbox);
+		function editRedraw(parent) {
+			normalisedCoords = calcCoords(startX, startY, endX, endY);
+			parent.each(resizeImgbox);
 		}
 
-		function edit_click(e) {
-			mouse_click($(this), e.offsetX, e.offsetY);
+		function editClick(e) {
+			mouseClick($(this), e.offsetX, e.offsetY);
 		}
 
-		function edit_marker_click(e) {
-			var off = div_position(this);
-			mouse_click($(this).parent().find('img'), off.x + e.offsetX, off.y + e.offsetY);
+		function editMarkerClick(e) {
+			var off = divPosition(this);
+			mouseClick($(this).parent().find('img'), off.x + e.offsetX, off.y + e.offsetY);
 		}
 
-		function edit_mousemove(e) {
-			mouse_move(this, e.offsetX, e.offsetY);
+		function editMousemove(e) {
+			mouseMove(this, e.offsetX, e.offsetY);
 		}
 
-		function edit_marker_mousemove(e) {
-			var off = div_position(this);
-			mouse_move(this, off.x + e.offsetX, off.y + e.offsetY);
+		function editMarkerMousemove(e) {
+			var off = divPosition(this);
+			mouseMove(this, off.x + e.offsetX, off.y + e.offsetY);
 		}
 
-		function div_position(div) {
+		function divPosition(div) {
 			var o = {};
 			o.x = parseInt($(div).css('left').replace(/px/, ''));
 			o.y = parseInt($(div).css('top').replace(/px/, ''));
 			return o;
 		}
-		function mouse_move(both, x, y) {
-			if (edit_button_down) {
-				end_x = x;
-				end_y = y;
+		function mouseMove(both, x, y) {
+			if (editButtonDown) {
+				endX = x;
+				endY = y;
 				var parent = $(both).parent();
-				edit_redraw(parent);
+				editRedraw(parent);
 			}
 		}
 
-		function mouse_click(img, x, y) {
-			if (edit_button_down) {
+		function mouseClick(img, x, y) {
+			if (editButtonDown) {
 				// Second click
-				end_x = x;
-				end_y = y;
-				normalised_coords = calcCoords(start_x, start_y, end_x, end_y);
-				save_box_private($(img), normalised_coords);
+				endX = x;
+				endY = y;
+				normalisedCoords = calcCoords(startX, startY, endX, endY);
+				saveBoxPrivate($(img), normalisedCoords);
 			} else {
 				// First click
-				end_x = start_x = x;
-				end_y = start_y = y;
-				normalised_coords = calcCoords(start_x, start_y, end_x, end_y);
+				endX = startX = x;
+				endY = startY = y;
+				normalisedCoords = calcCoords(startX, startY, endX, endY);
 			}
 			var parent = $(img).parent();
-			edit_redraw(parent);
-			edit_button_down = !edit_button_down;
+			editRedraw(parent);
+			editButtonDown = !editButtonDown;
 		}
 
-		function save_box_private($img, coords) {
+		function saveBoxPrivate($img, coords) {
 			var width = $img.width();
 			var realWidth = $img[0].naturalWidth;
 			var ratio = realWidth / width;
@@ -132,76 +151,41 @@
 			o.w = Math.floor(coords.w * ratio);
 			o.h = Math.floor(coords.h * ratio);
 
-			settings.save_box(o);
+			settings.saveBox(o);
 		}
 
-		function replace_imgboxes() {
-			var page_contains_elements = false;
+		function replaceImgboxes() {
+			var pageContainsElements = false;
 			allElments.each(function(idx, img) {
-				// var data = validate_data($(img).data());
-				//
-				// if (data == null) {
-				// if (settings.wrap_if_invalid == true) {
-				// data = {
-				// 'x' : 0,
-				// 'y' : 0,
-				// 'x2' : 0,
-				// 'y2' : 0,
-				// 'w' : 0,
-				// 'h' : 0
-				// };
-				// $(img).data(data);
-				// } else {
-				// return;
-				// }
-				// }
 
 				var parent = $(img).parent();
-				// if (settings.command == 'edit') {
-				// $(img).css('padding', '0px');
-				// $(img).css('margin', '0px');
-				// }
+
 				var marker = $('<div>');
-				$(marker).on('click', edit_marker_click);
-				$(marker).on('mousemove', edit_marker_mousemove);
+				$(marker).on('click', editMarkerClick);
+				$(marker).on('mousemove', editMarkerMousemove);
 
 				var div = $('<div>').attr({
-					'class' : parent_class
+					'class' : parentClass
 				}).css({
 					'position' : 'relative'
 				}).append($(img)).append(marker);
 				$(parent).append(div);
-				div.each(resize_imgbox);
-				page_contains_elements = true;
+				div.each(resizeImgbox);
+				pageContainsElements = true;
 			});
-			return page_contains_elements;
+			return pageContainsElements;
 		}
 
-		function window_resize_imgbox() {
-			$('.' + parent_class).each(resize_imgbox);
-		}
-
-		function init_imgbox() {
-			// $('.' + parent_class).find('img').one("load",
-			// function() {
-			// resize_imgbox(0, $(this).parent());
-			// }).each(function(e) {
-			// if (this.complete) {
-			// try {
-			// $(this).load();
-			// } catch (e) {
-			// debug('exception, don\'t know why! Help!!');
-			// debug(e);
-			// }
-			// }
-			// });
+		publicFn.redraw = windowResizeImgbox;
+		function windowResizeImgbox() {
+			$('.' + parentClass).each(resizeImgbox);
 		}
 
 		/**
 		 * x,y,w,h will always be valid. x2,y2 may be valid if set.
 		 * otherwise null
 		 */
-		function validate_data(data) {
+		function validateData(data) {
 			if (data == undefined || data.x == undefined || data.y == undefined) {
 				debug('missing one of x,y');
 				return null;
@@ -224,21 +208,36 @@
 			return data;
 		}
 
-		function resize_imgbox(idx, parent) {
+		function resizeImgbox(idx, parent) {
+			var worked = resizeImgboxIntrnal(idx, parent);
+			if (!worked) {
+				debug('add timer');
+				var timer = setInterval(function() {
+					debug('run timer');
+					worked = resizeImgboxIntrnal(idx, parent);
+					if (worked) {
+						clearInterval(timer);
+					}
+				}, settings.retryTimeout);
+			}
+		}
+
+		function resizeImgboxIntrnal(idx, parent) {
 
 			var $img = $(parent).find('img');
 			var data;
 
-			if (settings.command == 'edit' && edit_button_down) {
-				data = normalised_coords = calcCoords(start_x, start_y, end_x, end_y);
+			if (settings.command == 'edit' && editButtonDown) {
+				data = normalisedCoords = calcCoords(startX, startY, endX, endY);
 			} else {
-				data = validate_data($img.data());
+				data = validateData($img.data());
 				if (data == null) {
-					return;
+					return true;
 				}
-				data = actual_to_screen($img, data);
-				// data = normalised_coords = calcCoords(data.x,
-				// data.y, data.x2, data.y2);
+				data = actualToScreen($img, data);
+				if (data == null) {
+					return false;
+				}
 			}
 
 			var css = {
@@ -247,13 +246,18 @@
 				'width' : data.w,
 				'height' : data.h,
 			};
-			var marker_css = $.extend({}, settings.markStyle, css);
-			$(parent).find('div').css(marker_css);
+			var markerCss = $.extend({}, settings.markStyle, css);
+			$(parent).find('div').css(markerCss);
+			return true;
 		}
 
-		function actual_to_screen($img, actual) {
+		function actualToScreen($img, actual) {
 			var width = $img.width();
 			var realWidth = $img[0].naturalWidth;
+			if (realWidth == 0) {
+				debug('realWidth:bad');
+				return null;
+			}
 			var ratio = width / realWidth;
 
 			var o = {};
@@ -269,7 +273,7 @@
 		}
 		// Taken from
 		// https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript#8809472
-		function get_unique_id() { // Public Domain/MIT
+		function getUniqueId() { // Public Domain/MIT
 			var d = new Date().getTime();
 			if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
 				// use high-precision timer if available
@@ -283,29 +287,46 @@
 		}
 
 		/*
-		 * Override 'save_box' to save co-ordinates. coord { x, y, w, h,
+		 * Override 'saveBox' to save co-ordinates. coord { x, y, w, h,
 		 * x2, y2 }
 		 */
-		function callback_save_box(coord) {
+		function callbackSaveBox(coord) {
 			console.log(coord);
 		}
 
-		function calcCoords(s_x, s_y, e_x, e_y) {
+		function calcCoords(sX, sY, eX, eY) {
 			var o = {};
-			o.x = Math.min(s_x, e_x);
-			o.y = Math.min(s_y, e_y);
-			o.x2 = Math.max(s_x, e_x);
-			o.y2 = Math.min(s_y, e_y);
-			o.w = Math.abs(s_x - e_x);
-			o.h = Math.abs(s_y - e_y);
+			o.x = Math.min(sX, eX);
+			o.y = Math.min(sY, eY);
+			o.x2 = Math.max(sX, eX);
+			o.y2 = Math.min(sY, eY);
+			o.w = Math.abs(sX - eX);
+			o.h = Math.abs(sY - eY);
 			return o;
 		}
 
-		function debug(str) {
+		function debugLabel() {
+			var label = 'imgbox: ';
+			if (settings.name == '') {
+				label += parentClass;
+			} else {
+				label += settings.name + ' (' + parentClass + ')';
+			}
+			return label;
+		}
+
+		function debug(str, o) {
 			if (settings.debug) {
-				console.log('imgbox: ' + parent_class, str);
+				if (o == undefined) {
+					console.log('imgbox:' + debugLabel + ' ' + str);
+				} else {
+					console.log('imgbox:' + debugLabel + ' ' + str, o);
+				}
 			}
 		}
+
+		// Return public functions
+		return publicFn;
 
 	};
 
