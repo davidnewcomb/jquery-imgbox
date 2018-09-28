@@ -1,6 +1,6 @@
 rem Prepare for release
 
-echo "/*"                                                             > jquery.imgbox.min.js
+echo "/*"                                                             >  jquery.imgbox.min.js
 echo " *  jquery-imgbox - v1.1.2"                                     >> jquery.imgbox.min.js
 echo " *  A jQuery plugin that draws a box over an image."            >> jquery.imgbox.min.js
 echo " *  https://github.com/davidnewcomb/jquery-imgbox/"             >> jquery.imgbox.min.js
