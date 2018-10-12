@@ -212,12 +212,12 @@
 		}
 
 		function resizeImgbox(idx, parent) {
-			var worked = resizeImgboxIntrnal(idx, parent);
+			var worked = resizeImgboxInternal(idx, parent);
 			if (!worked) {
 				debug('add timer');
 				var timer = setInterval(function() {
 					debug('run timer');
-					worked = resizeImgboxIntrnal(idx, parent);
+					worked = resizeImgboxInternal(idx, parent);
 					if (worked) {
 						clearInterval(timer);
 					}
@@ -225,7 +225,7 @@
 			}
 		}
 
-		function resizeImgboxIntrnal(idx, parent) {
+		function resizeImgboxInternal(idx, parent) {
 
 			var $img = $(parent).find('img');
 			var data;
@@ -242,10 +242,11 @@
 					return false;
 				}
 			}
-
+			var padded_left = parseInt($img.css('padding-left').replace(/px/, '')) + data.x;
+			var padded_top = parseInt($img.css('padding-top').replace(/px/, '')) + data.y;
 			var css = {
-				'left' : data.x,
-				'top' : data.y,
+				'left' : padded_left,
+				'top' : padded_top,
 				'width' : data.w,
 				'height' : data.h,
 			};
