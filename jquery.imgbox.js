@@ -162,8 +162,10 @@
 				var parent = $(img).parent();
 
 				var marker = $('<div>');
-				$(marker).on('click', editMarkerClick);
-				$(marker).on('mousemove', editMarkerMousemove);
+				if (settings.command == 'edit') {
+					$(marker).on('click', editMarkerClick);
+					$(marker).on('mousemove', editMarkerMousemove);
+				}
 
 				var div = $('<div>').attr({
 					'class' : parentClass
