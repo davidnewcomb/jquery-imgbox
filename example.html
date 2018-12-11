@@ -8,8 +8,7 @@
 	<script src="https://cdn.rawgit.com/davidnewcomb/jquery-imgbox/latest/jquery.imgbox.js"></script>
 	<!--
 	Development
-	<script src="https://cdn.rawgit.com/davidnewcomb/jquery-imgbox/master/jquery.imgbox.js"></script>
-	<script src="/jquery-imgbox/jquery.imgbox.min.js"></script>
+	<script src="/jquery-imgbox/jquery.imgbox.js"></script>
 	-->
 	
 </head>
@@ -61,8 +60,8 @@ jQuery plugin that draws a box over an image. The box can be decorated with CSS.
 				<div class="panel-body">Use starting x,y and ending x2,y2.</div>
 			</div>
 			<pre id="fest_code"></pre>
-			<pre>$('.imgbox').imgbox({
-    name: ".imgbox",
+			<pre>$('#fest').imgbox({
+    name: "#fest",
     markStyle : {
         'background-color' : 'white',
         'opacity' : '0.2',
@@ -71,7 +70,7 @@ jQuery plugin that draws a box over an image. The box can be decorated with CSS.
 });</pre>
 		</div>
 		<div class="col-sm-6 col-lg-6">
-			<img id="fest" class="img-responsive imgbox" data-x="830" data-y="600" data-x2="1220" data-y2="1050"
+			<img id="fest" class="img-responsive" data-x="830" data-y="600" data-x2="1220" data-y2="1050"
 			src="//cdn.bigsoft.co.uk/jquery-imgbox/img/fest.jpg"/>
 		</div>
 	</div>
@@ -88,8 +87,8 @@ jQuery plugin that draws a box over an image. The box can be decorated with CSS.
 				<div class="panel-body">Reusing style from <code>imgbox</code>. Wrap your image in anything like an anchor link.</div>
 			</div>
 			<pre id="family_code"></pre>
-			<pre>$('.imgbox').imgbox({
-    name: ".imgbox",
+			<pre>$('#family').imgbox({
+    name: "#family",
     markStyle : {
         'background-color' : 'white',
         'opacity' : '0.2',
@@ -99,7 +98,7 @@ jQuery plugin that draws a box over an image. The box can be decorated with CSS.
 		</div>
 		<div class="col-sm-8 col-lg-8">
 			<a href="README.md">
-				<img id="family" class="img-responsive imgbox" data-x="15" data-y="110" data-w="70" data-h="80"
+				<img id="family" class="img-responsive" data-x="15" data-y="110" data-w="70" data-h="80"
 				src="//cdn.bigsoft.co.uk/jquery-imgbox/img/family.jpg"/>
 			</a>
 		</div>
@@ -215,7 +214,7 @@ writeCode('arcadia_small');
 $(document).ready(function() {
 	
 	// Examples
-	$('.imgbox').imgbox({
+	$('#fest, #family').imgbox({
 		name: '.imgbox',
 		markStyle : {
 			'background-color' : 'white',
