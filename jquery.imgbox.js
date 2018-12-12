@@ -242,8 +242,10 @@
 					return false;
 				}
 			}
+
 			var padded_left = parseInt($img.css('padding-left').replace(/px/, '')) + data.x;
 			var padded_top = parseInt($img.css('padding-top').replace(/px/, '')) + data.y;
+
 			var css = {
 				'left' : padded_left,
 				'top' : padded_top,
