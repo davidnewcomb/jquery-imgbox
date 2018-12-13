@@ -20,7 +20,7 @@ This plugin can be used with minimum changes to your existing code.
 ### Read-only
 
 Place the extra data items into your image tags. You may use width/height or a second set of
-co-ordinates. The following 2 are equivalent.
+coordinates. The following 2 are equivalent.
 ```html
 <img data-x="10" data-y="10" data-w="10" data-h="10" class=".." src=".." />
 ```
@@ -58,7 +58,7 @@ $(document).ready(function() {
 });
 ```
 
-If you want to change the co-ordinates then you need access to the callback object.
+If you want to change the coordinates then you need access to the callback object.
 ```js
 $(document).ready(function() {
 	var newData = {x: 10, y:10, w:10, h:10};
@@ -77,27 +77,28 @@ Here's the list of available settings.
 ### HTML settings
 To be used in `IMG` tags.
 
-Attribute	| Type		| Rule				| Description
----		| ---		| ---				| ---
-`data-x`	| *Number*	| Required			| CSS left
-`data-y`	| *Number*	| Required			| CSS top
+Attribute	| Type		| Rule							| Description
+---			| ---		| ---							| ---
+`data-x`	| *Number*	| Required						| CSS left
+`data-y`	| *Number*	| Required						| CSS top
 `data-w`	| *Number*	| Optional: Used with `data-h`	| CSS width
 `data-h`	| *Number*	| Optional: Used with `data-w`	| CSS height
-`data-x2`	| *Number*	| Optional: Used with `data-y2`	| Second co-ordinate used to calculate width
-`data-y2`	| *Number*	| Optional: Used with `data-x2`	| Second co-ordinate used to calculate height
+`data-x2`	| *Number*	| Optional: Used with `data-y2`	| Second coordinate used to calculate width
+`data-y2`	| *Number*	| Optional: Used with `data-x2`	| Second coordinate used to calculate height
 
 If `w`, `h`, `x2` and `y2` are used, then `w`, `h` take precedence.
 
 ### Javascript settings
 
-Attribute	| Type			| Default				| Description
----		| ---			| ---					| ---
-`markStyle`	| *Object*		| `{'border' : '1px solid yellow'}`	| CSS for box, yellow solid border line.
-`debug`		| *Boolean*		| `false`				| Some extra information.
-`name`		| *String*		| `''`					| Name added to debug messages
-`command`	| *String*		| `''`					| Type of ImgBox, currently only '' or 'edit'
-`saveBox`	| *Function*		| Prints imgbox data on `console.log`	| Callback `function(data){}` on save
-`wrapIfInvalid`	| *Boolean*		| `false`				| Wrap `img` even if no co-ordinates
+Attribute		| Type			| Default				| Description
+---				| ---			| ---					| ---
+`markStyle`		| *Object*		| `{}`					| CSS for marker box, yellow solid border line.
+`markClass`		| *String*		| `''`					| Classes to be used for marker box.
+`debug`			| *Boolean*		| `false`				| Some extra information.
+`name`			| *String*		| `''`					| Name added to debug messages
+`command`		| *String*		| `''`					| Type of ImgBox, currently only '' or 'edit'
+`saveBox`		| *Function*	| Prints imgbox data on `console.log`	| Callback `function(data){}` on save
+`wrapIfInvalid`	| *Boolean*		| `false`				| Wrap `img` even if no coordinates
 `retryInterval`	| *Number*		| `1000`				| If `img.src` has not loaded retry redraw in milliseconds.
 
 

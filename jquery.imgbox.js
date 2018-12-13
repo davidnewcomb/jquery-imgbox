@@ -21,25 +21,27 @@
 
 			// extra messages
 			debug : false,
+
 			// nice name, for debugging
 			name : '',
 
-			// set of highlight styles
-			markStyle : {
-				'border' : '1px solid yellow'
-			},
+			// map of highlight styles
+			markStyle : {},
+			
+			// Space separated classes
+			markClass : '',
 
 			// Addition features
 
-			// edit - edit co-ordinate box
+			// edit - edit coordinate box
 			command : '',
+			
 			// Call back to save box co-ordinates
 			saveBox : callbackSaveBox,
 
 			// Mainly internal use
 
-			// Wrap the IMG tag if the coordinates are invalid, such
-			// as edit
+			// Wrap the IMG tag if the coordinates are invalid, such as edit
 			wrapIfInvalid : false,
 
 			// Interval to update when image not there
@@ -162,6 +164,9 @@
 				var parent = $(img).parent();
 
 				var marker = $('<div>');
+				if (settings.markClass != '') {
+					marker.addClass(settings.markClass);
+				}
 				if (settings.command == 'edit') {
 					$(marker).on('click', editMarkerClick);
 					$(marker).on('mousemove', editMarkerMousemove);
@@ -252,7 +257,7 @@
 				'width' : data.w,
 				'height' : data.h,
 			};
-			var markerCss = $.extend({}, settings.markStyle, css);
+			var markerCss = $.extend(settings.markStyle, css);
 			$(parent).find('div').css(markerCss);
 			return true;
 		}
@@ -294,7 +299,7 @@
 		}
 
 		/*
-		 * Override 'saveBox' to save co-ordinates. coord { x, y, w, h,
+		 * Override 'saveBox' to save coordinates. coord { x, y, w, h,
 		 * x2, y2 }
 		 */
 		function callbackSaveBox(coord) {
