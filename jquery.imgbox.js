@@ -1,5 +1,5 @@
 /*
- *  jquery-imgbox - v1.1.2
+ *  jquery-imgbox - v1.2.0
  *  A jQuery plugin that draws a box over an image.
  *  https://github.com/davidnewcomb/jquery-imgbox/
  *
@@ -41,42 +41,58 @@
 
 			// Mainly internal use
 
-			// Wrap the IMG tag if the coordinates are invalid, such as edit
-			wrapIfInvalid : false,
-
-			// Interval to update when image not there
+			// Interval (ms) to update when image has not arrived yet
 			retryInterval : 1000
 		};
 
+		// Merge options 
 		var settings = $.extend(defaultSettings, options);
-		if (settings.command == 'edit') {
-			settings.wrapIfInvalid = true;
-		}
+		
+		// Marker must be absolutely positions otherwise the maths is impossible!
 		settings.markStyle['position'] = 'absolute';
 
 		var allElments = this;
+		
+		// Images are moved into a newly created div with the marker.
+		// It's easier to have a name rather than work it out.
 		var parentClass = 'imgbox-group-' + uniq;
 
+		// Command: Edit memory
 		var editButtonDown = false;
-
 		var startX = 0;
 		var startY = 0;
 		var endX = 0;
 		var endY = 0;
 		var normalisedCoords;
+		
+		// Debug line start
 		var debugLabel = debugLabel();
 
+		// Setup
 		init();
+		
+		// Force everything to be the right size
 		$('.' + parentClass).each(resizeImgbox);
 
+		/**
+		 * init()
+		 * Runs the set up
+		 */
 		function init() {
-			var pageContainsElements = replaceImgboxes();
-			if (pageContainsElements == false) {
+			
+			// Is there any point in continuing?
+			if (allElments.length == 0) {
 				debug('page contains no elements');
 				return;
 			}
+			
+			// Replace images
+			replaceImgboxes();
+			
+			// Listen for window resize events
 			$(window).on('resize', windowResizeImgbox);
 
+			// Add mouse listeners if we are in edit mode
 			if (settings.command == 'edit') {
 				debug('settings.command:edit');
 				$(allElments).on('click', editClick);
@@ -158,7 +174,6 @@
 		}
 
 		function replaceImgboxes() {
-			var pageContainsElements = false;
 			allElments.each(function(idx, img) {
 
 				var parent = $(img).parent();
@@ -179,9 +194,7 @@
 				}).append($(img)).append(marker);
 				$(parent).append(div);
 				div.each(resizeImgbox);
-				pageContainsElements = true;
 			});
-			return pageContainsElements;
 		}
 
 		publicFn.redraw = windowResizeImgbox;
@@ -230,6 +243,9 @@
 			}
 		}
 
+		/**
+		 * Used in resizeImgbox
+		 */
 		function resizeImgboxInternal(idx, parent) {
 
 			var $img = $(parent).find('img');
@@ -248,6 +264,7 @@
 				}
 			}
 
+			// Compensate for padding
 			var padded_left = parseInt($img.css('padding-left').replace(/px/, '')) + data.x;
 			var padded_top = parseInt($img.css('padding-top').replace(/px/, '')) + data.y;
 
@@ -257,8 +274,11 @@
 				'width' : data.w,
 				'height' : data.h,
 			};
+			
+			// Add styles
 			var markerCss = $.extend(settings.markStyle, css);
 			$(parent).find('div').css(markerCss);
+
 			return true;
 		}
 
@@ -329,10 +349,11 @@
 
 		function debug(str, o) {
 			if (settings.debug) {
+				var text = 'imgbox:' + debugLabel + ' ' + str;
 				if (o == undefined) {
-					console.log('imgbox:' + debugLabel + ' ' + str);
+					console.log(text);
 				} else {
-					console.log('imgbox:' + debugLabel + ' ' + str, o);
+					console.log(text, o);
 				}
 			}
 		}
