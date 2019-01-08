@@ -68,7 +68,7 @@ $(document).ready(function() {
 });
 ```
 
-Make a PR is you would like to add anything to `imgAdmin`.
+If you thing `imgAdmin` needs any other features then create an issue for discussion.
 
 ## Options
 
