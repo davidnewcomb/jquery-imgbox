@@ -4,6 +4,7 @@
  *  https://github.com/davidnewcomb/jquery-imgbox/
  *
  *  Copyright (c) 2018 David Newcomb, http://www.bigsoft.co.uk
+ *  
  *  MIT License
  */
 (function($) {
@@ -50,6 +51,8 @@
 		
 		// Marker must be absolutely positions otherwise the maths is impossible!
 		settings.markStyle['position'] = 'absolute';
+		// Sends pointer events to parent
+		settings.markStyle['pointer-events'] = 'none';
 
 		var allElments = this;
 		
@@ -109,25 +112,8 @@
 			mouseClick($(this), e.offsetX, e.offsetY);
 		}
 
-		function editMarkerClick(e) {
-			var off = divPosition(this);
-			mouseClick($(this).parent().find('img'), off.x + e.offsetX, off.y + e.offsetY);
-		}
-
 		function editMousemove(e) {
 			mouseMove(this, e.offsetX, e.offsetY);
-		}
-
-		function editMarkerMousemove(e) {
-			var off = divPosition(this);
-			mouseMove(this, off.x + e.offsetX, off.y + e.offsetY);
-		}
-
-		function divPosition(div) {
-			var o = {};
-			o.x = parseInt($(div).css('left').replace(/px/, ''));
-			o.y = parseInt($(div).css('top').replace(/px/, ''));
-			return o;
 		}
 
 		function mouseMove(both, x, y) {
@@ -181,10 +167,6 @@
 				var marker = $('<div>');
 				if (settings.markClass != '') {
 					marker.addClass(settings.markClass);
-				}
-				if (settings.command == 'edit') {
-					$(marker).on('click', editMarkerClick);
-					$(marker).on('mousemove', editMarkerMousemove);
 				}
 
 				var div = $('<div>').attr({
@@ -344,12 +326,13 @@
 			} else {
 				label += settings.name + ' (' + parentClass + ')';
 			}
+			label += ' ';
 			return label;
 		}
 
 		function debug(str, o) {
 			if (settings.debug) {
-				var text = 'imgbox:' + debugLabel + ' ' + str;
+				var text = debugLabel + str;
 				if (o == undefined) {
 					console.log(text);
 				} else {
