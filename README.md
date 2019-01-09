@@ -28,11 +28,18 @@ coordinates. The following 2 are equivalent.
 <img data-x="10" data-y="10" data-x2="20" data-y2="20" class=".." src=".." />
 ```
 
-Activate the plugin during start up.
+You must include one of the mark styler settings when you create the ImgBox, otherwise
+you won't see anything! Activate the plugin during start up with either of these two
+minimum configurations. You may specify `markClass` or `markStyle` or both but not niether.
 ```js
 $(document).ready(function() {
-	$('img').imgbox();
+	$('img').imgbox({markClass:'myclass'});
 });
+
+$(document).ready(function() {
+	$('img').imgbox({markStyle:{border:'5px solid red'});
+});
+
 ```
 
 ### Editable

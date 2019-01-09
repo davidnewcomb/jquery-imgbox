@@ -49,6 +49,12 @@
 		// Merge options 
 		var settings = $.extend(defaultSettings, options);
 		
+		// They won't be able to see anything without these set!
+		if (settings.markClass == '' && settings.markStyle == {}) {
+			debug('missing markClass and/or markStyle');
+			return;
+		}
+
 		// Marker must be absolutely positions otherwise the maths is impossible!
 		settings.markStyle['position'] = 'absolute';
 		// Sends pointer events to parent

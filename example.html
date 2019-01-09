@@ -22,6 +22,13 @@
 	border: 4px dotted white;
 }
 </style>
+<style id="arcadia_style">
+.arcadia_style {
+	background-color: black;
+	opacity: 0.4;
+	border: 4px solid yellow;
+}
+</style>
 
 </head>
 <body>
@@ -112,6 +119,7 @@ jQuery plugin that draws a box over an image. The box can be decorated with CSS.
 			</div>
 			<pre id="arcadia_big_img_code"></pre>
 			<pre id="arcadia_small_img_code"></pre>
+			<pre id="arcadia_style_code"></pre>
 			<pre id="arcadia_js_code"></pre>
 		</div>
 		<div class="col-sm-6 col-lg-6">
@@ -204,10 +212,8 @@ $(document).ready(function() {
 		name: '#arcadia_big',
 		// Look at your console log!
 		debug: true,
-		// Define style of marker
-		markStyle : {
-			'border' : '5px solid blue'
-		},
+		// Define style using class
+		markClass : 'arcadia_style',
 		// We want to be able to edit the box
 		command : 'edit',
 		// When we save a new box this function is called
@@ -217,8 +223,9 @@ $(document).ready(function() {
 	arcadiaSmallCallback = $('#arcadia_small').imgbox({
 		name: '#arcadia_small',
 		debug: true,
+		// Define style of marker using css
 		markStyle : {
-			'border' : '2px solid yellow'
+			'border' : '2px solid blue'
 		},
 		// You can draw a new box on the smaller picture too!
 		command : 'edit',
@@ -265,6 +272,7 @@ writeJsCode('party_jack');
 
 writeImgCode('arcadia_big');
 writeImgCode('arcadia_small');
+writeStyleCode('arcadia');
 writeJsCode('arcadia');
 
 </script>
