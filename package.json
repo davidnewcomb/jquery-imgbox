@@ -16,7 +16,8 @@
 		"jquery",
 		"image",
 		"mark",
-		"box"
+		"box",
+		"imgbox"
 	],
 	"author": "David Newcomb <david.newcomb@bigsoft.co.uk> (http://www.bigsoft.co.uk)",
 	"license": "MIT",

@@ -4,7 +4,7 @@ jQuery plugin that draws a box over an image.
 ## Overview
 
 ImgBox reads `data-` attributes to your image tags and draws a custom styled box over the image.
-See the [demo page](https://cdn.rawgit.com/davidnewcomb/jquery-imgbox/master/example.html)
+See the [demo page](https://cdn.bigsoft.co.uk/projects/jquery-imgbox/example.html)
 for examples.
 
 ImgBox also has an drawable edit mode and you can update the position of the box yourself at anytime.
@@ -14,6 +14,10 @@ This plugin can be used with minimum changes to your existing code.
 ## Dependencies
 
 1. [jQuery](https://jquery.com)
+
+## Size
+
+After gzip compression `jquery.imgbox.min.js` is 1.5K.
 
 ## Usage
 
@@ -99,8 +103,8 @@ If `w`, `h`, `x2` and `y2` are used, then `w`, `h` take precedence.
 
 Attribute		| Type			| Default				| Description
 ---				| ---			| ---					| ---
-`markStyle`		| *Object*		| `{}`					| CSS for marker box, yellow solid border line.
 `markClass`		| *String*		| `''`					| Classes to be used for marker box.
+`markStyle`		| *Object*		| `{}`					| CSS for marker box.
 `debug`			| *Boolean*		| `false`				| Some extra information.
 `name`			| *String*		| `''`					| Name added to debug messages
 `command`		| *String*		| `''`					| Type of ImgBox, currently only '' or 'edit'
@@ -108,6 +112,7 @@ Attribute		| Type			| Default				| Description
 `wrapIfInvalid`	| *Boolean*		| `false`				| Wrap `img` even if no coordinates
 `retryInterval`	| *Number*		| `1000`				| If `img.src` has not loaded retry redraw in milliseconds.
 
+As a minimum you must specify at least one of `markClass` or `markStyle`.
 
 ## License
 
