@@ -1,5 +1,10 @@
 # Change log
 
+## 1.2.1
+
+* Update jquery dep to ^3.4.0 (CVE-2019-11358)
+* Update example with Bootstrap 4.4
+
 ## 1.2.0
 
 * Add `markClass` to options
