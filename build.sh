@@ -2,7 +2,7 @@
 yarn install
 cat << EOF > jquery.imgbox.min.js
 /*
- *  jquery-imgbox - v1.2.0
+ *  jquery-imgbox - v1.2.1
  *  A jQuery plugin that draws a box over an image.
  *  https://github.com/davidnewcomb/jquery-imgbox/
  *
