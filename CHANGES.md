@@ -1,5 +1,9 @@
 # Change log
 
+## 1.2.2
+
+NPM publish
+
 ## 1.2.1
 
 * Update jquery dep to ^3.4.0 (CVE-2019-11358)

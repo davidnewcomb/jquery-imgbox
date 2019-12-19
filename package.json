@@ -1,12 +1,12 @@
 {
 	"name": "jquery-imgbox",
-	"version": "1.2.1",
+	"version": "1.2.2",
 	"description": "A jQuery plugin that draws a box over an image.",
 	"main": "jquery.imgbox.min.js",
 	"scripts": {
 		"build": "./build.sh",
 		"env": "env",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 0"
 	},
 	"repository": {
 		"type": "git",
