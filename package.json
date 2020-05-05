@@ -26,9 +26,10 @@
 	},
 	"homepage": "https://github.com/davidnewcomb/jquery-imgbox#readme",
 	"dependencies": {
-		"jquery": "^3.4.0"
+		"jquery": "^3.0.0"
 	},
 	"devDependencies": {
+		"bootstrap": "^4.0.0",
 		"uglify-js": "^3.0.0"
 	}
 }
