@@ -7,7 +7,7 @@ S="src"
 T="/tmp"
 
 question() {
-	echo -n "$1: "
+	echo -n "$1? "
 	read ANSWER
 }
 
@@ -34,27 +34,27 @@ cat $T/header.tmp $T/body-min.tmp > jquery.imgbox.min.js
 
 rm $T/header.tmp $T/body.tmp $T/body-min.tmp
 
-# Sorry, my program that helps with checking in with kiff
+# Sorry, my program that helps checking in, diffs and commits
 gitstatus
 
-exit
-
-echo "Tagging code"
-git tag "v$VERSION"
-
-echo "Moving latest"
-git tag -f latest
-
-echo "Pushing..."
-git push --tag
-
-echo "--------------"
-question "Publish to NPM"
-if [ "$ANSWER" != "y" ]
+question "Do you want to create git tags"
+if [ "$ANSWER" = "y" ]
 then
-	echo "Not publishing to NPM"
-	exit 0
+
+	echo "Tagging code"
+	git tag "v$VERSION"
+
+	echo "Moving latest"
+	git tag -f latest
+
+	echo "Pushing..."
+	git push --tag
 fi
 
-npm login
-npm publish
+question "Publish to NPM"
+if [ "$ANSWER" = "y" ]
+then
+	npm login
+	npm publish
+fi
+
