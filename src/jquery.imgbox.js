@@ -1,12 +1,3 @@
-/*
- *  jquery-imgbox - v1.2.2
- *  A jQuery plugin that draws a box over an image.
- *  https://github.com/davidnewcomb/jquery-imgbox/
- *
- *  Copyright (c) 2018 David Newcomb, http://www.bigsoft.co.uk
- *  
- *  MIT License
- */
 (function($) {
 
 	$.fn.imgbox = function(options) {
@@ -107,6 +98,11 @@
 				$(allElments).on('click', editClick);
 				$(allElments).on('mousemove', editMousemove);
 			}
+		}
+
+		publicFn.getVersion = getVersion;
+		function getVersion() {
+			return '{version}';
 		}
 
 		function editRedraw(parent) {

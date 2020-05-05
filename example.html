@@ -28,7 +28,7 @@
 
 <div class="container">
 
-<h1>ImgBox</h1>
+<h1>JQuery ImgBox  - <span class="version">dev-version</span></h1>
 
 <div>
 jQuery plugin that draws a box over an image. The box can be decorated with CSS.
@@ -132,10 +132,34 @@ jQuery plugin that draws a box over an image. The box can be decorated with CSS.
 		</div>		
 	</div>
 
+<hr/>
+
+	<div class="row">
+		<div class="col-sm-6 col-lg-6">
+			<div class="panel panel-default">
+				<div class="panel-body">Get the version number.</div>
+			</div>
+			<pre id="version_js_code"></pre>
+		</div>
+		<div class="col-sm-6 col-lg-6">
+			The version is <span class="version">dev-version</span> and in title!
+		</div>
+	</div>
 </div>
+
+<script id="version_js">
+$(document).ready(function() {
+
+	let v = $.fn.imgbox().getVersion();
+	$('.version').text(v);
+
+});
+</script>
+
 
 <script id="jack_me_js">
 $(document).ready(function() {
+
 	$('#jack_me').imgbox({
 		name: '#jack_me',
 		markStyle : {
@@ -267,6 +291,8 @@ writeImgCode('arcadia_big');
 writeImgCode('arcadia_small');
 writeStyleCode('arcadia');
 writeJsCode('arcadia');
+
+writeJsCode('version');
 
 </script>
 
