@@ -34,6 +34,10 @@ cat $T/header.tmp $T/body-min.tmp > jquery.imgbox.min.js
 
 rm $T/header.tmp $T/body.tmp $T/body-min.tmp
 
+echo "Update package"
+sed 's/"version": ".*"/"version": "'"$XX"'"/' package.json > $T/package.json
+mv $T/package.json package.json
+
 # Sorry, my program that helps checking in, diffs and commits
 gitstatus
 
